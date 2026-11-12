@@ -5,6 +5,7 @@ from schemas import *
 from sqlalchemy.orm import Session, contains_eager
 from models import Submission, Problem, User, GroupProblemLink, Topic
 from sqlalchemy import select
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
@@ -106,3 +107,11 @@ def get_dashboard(db: Session = Depends(get_db), current_user: User = Depends(ge
 
 if __name__ == "__main__":
     uvicorn.run('main:app', reload=True)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # Разрешает запросы отовсюду
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
